@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terminal Love Confession</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #33ff33;
+      font-family: 'Courier New', Courier, monospace;
+      padding: 20px;
+      overflow: hidden;
+    }
+    #terminal {
+      white-space: pre-line;
+      line-height: 1.5;
+    }
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      background-color: #33ff33;
+      animation: blink 1s infinite;
+    }
+    #inputLine {
+      display: none;
+    }
+    input {
+      background-color: #000;
+      color: #33ff33;
+      font-family: 'Courier New', Courier, monospace;
+      border: none;
+      outline: none;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="terminal"></div>
+  <div id="inputLine">
+    <span>$ </span><input id="terminalInput" type="text" autofocus autocomplete="off" />
+  </div>
+  <script>
+    const terminal = document.getElementById("terminal");
+    const inputLine = document.getElementById("inputLine");
+    const terminalInput = document.getElementById("terminalInput");
+
+    const scriptedLines = [
+      "WARNING ⚠! This file may contain a love virus.",
+      "Initializing the next process...",
+      "decrypting emotions...",
+      "Your system has been hacked successfully",
+      "Connecting to her heart...",
+      "Access granted.",
+      "\n$ cat our_story.txt",
+      "Once upon a time, two souls met online...",
+      "They laughed, cried, grew, and fell in love.",
+      "Even distance couldn’t stop their connection.",
+      "\n$",
+      "She made every byte his life better.",
+      "One year down, forever to go.",
+      "\n$ enter a command to continue...(date,sonnet,oldest memory,future,i love you,exit)"
+    ];
+
+    let i = 0;
+
+    function typeLine(lineIndex = 0, charIndex = 0) {
+      if (lineIndex >= scriptedLines.length) {
+        inputLine.style.display = 'block';
+        terminalInput.focus();
+        return;
+      }
+
+      const line = scriptedLines[lineIndex];
+
+      if (charIndex === 0) {
+        terminal.innerHTML += "\n$ ";
+      }
+
+      terminal.innerHTML = terminal.innerHTML.replace(/<span class=\"cursor\">.*?<\/span>/g, "");
+      terminal.innerHTML += line[charIndex] || "";
+      terminal.innerHTML += '<span class="cursor"> </span>';
+
+      if (charIndex < line.length - 1) {
+        setTimeout(() => typeLine(lineIndex, charIndex + 1), 50);
+      } else {
+        terminal.innerHTML = terminal.innerHTML.replace(/<span class=\"cursor\">.*?<\/span>/g, "");
+        setTimeout(() => typeLine(lineIndex + 1, 0), 700);
+      }
+    }
+
+    terminalInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        const command = terminalInput.value.trim();
+        terminal.innerHTML += "\n$ " + command;
+        terminalInput.value = "";
+
+        switch (command.toLowerCase()) {
+          case "i love you":
+            terminal.innerHTML += "\n> I love you moreeee ❤️";
+            break;
+          case "date":
+            terminal.innerHTML += `\n> Anniversary: 10 May 2024`;
+            break;
+          case "future":
+            terminal.innerHTML += "\n> Together forever. Start a family and live every moment with you <3";
+            break;
+          case "sonnet":
+            terminal.innerHTML += "\n> Whisper of a moonlit breeze\nWhen first I glimpsed the dawn upon your face\nThe world grew still beneath\nBlossomed within my heart, a tainted place\nA love profound did reach.\nFor even the sun seemed all dim in haze\nThe stars had lost their shine\nYour touch ignited my soul ablaze\nYour name, a whisper of a moonlit breeze.\n\nNo longer do I fear, what lies ahead\nFor in your gaze, I find the stars align.\nYour words weave magic, wrapping me in warmth.\nA single glance of you, sets my heart unformed.\nAnd though the future's course is left unsaid \nTonight, I know your heart beats closer to mine.";
+            break;
+          case "oldest memory":
+            terminal.innerHTML += "\n> It was our first ever vc and you had said we both would make a great pair. *blushed real quick*";
+            break;
+          case "exit":
+            terminal.innerHTML += "\n> Connection closed. Missing you already.";
+            inputLine.style.display = 'none';
+            break;
+          default:
+            terminal.innerHTML += "\n> Unknown command. Try: 'i love you', 'date', 'future', or 'exit'";
+        }
+        window.scrollTo(0, document.body.scrollHeight);
+      }
+    });
+
+    typeLine();
+  </script>
+</body>
+</html>
